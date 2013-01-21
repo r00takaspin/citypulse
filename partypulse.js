@@ -92,7 +92,9 @@ if (Meteor.isClient) {
   //Template.inst_trans.today_post_num = Template.random();
   var clientID = new Date().getTime(); //this could probably be more random
   Template.map.rendered = function(){
-    initializeMap();
+    $(document).ready(function() {
+      initializeMap();
+    });
   };
 
 }
