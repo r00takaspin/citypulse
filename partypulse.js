@@ -36,6 +36,8 @@ function updatePlaceTranslation()
 function initializeMap(){
     DG.autoload(function() { 
         lcs = Locations.find();
+
+
         // Создаем объект карты, связанный с контейнером: 
         var myMap = new DG.Map('map_canvas'); 
         // Устанавливаем центр карты, и коэффициент масштабирования: 
@@ -47,23 +49,27 @@ function initializeMap(){
               // Текст внутри балуна: 
               contentHtml: '<div class="alert" style="text-align:left;"><b>Привет!</b><br/>Кликни по любому маркету, <BR>чтобы выбрать вечеринку. Например, по этому.</div>'
            }); 
-          myMap.balloons.add(myBalloon);
-        lcs.forEach(function(loc)
-        {
-          // Добавляем элемент управления коэффициентом масштабирования: 
-          myMap.controls.add(new DG.Controls.Zoom()); 
-          // Добавить маркер на карту:
-          
-          var point = new DG.Markers.Common({
-               // Местоположение на которое указывает маркер:
-               geoPoint: new DG.GeoPoint(loc.lng,loc.lat),
-               // Функция, вызываемая при клике по маркеру
-               clickCallback: updatePlaceTranslation
+        myMap.balloons.add(myBalloon);
+
+        lcs.map(function() {
+          lcs.forEach(function(loc)
+          {
+            console.log(loc);
+            // Добавляем элемент управления коэффициентом масштабирования: 
+            myMap.controls.add(new DG.Controls.Zoom()); 
+            // Добавить маркер на карту:
+            
+            var point = new DG.Markers.Common({
+                 // Местоположение на которое указывает маркер:
+                 geoPoint: new DG.GeoPoint(loc.lng,loc.lat),
+                 // Функция, вызываемая при клике по маркеру
+                 clickCallback: updatePlaceTranslation
+            });
+
+            loc_to_point.push({location_id:loc._id,point_id:point.getId()})
+
+            myMap.markers.add(point);
           });
-
-          loc_to_point.push({location_id:loc._id,point_id:point.getId()})
-
-          myMap.markers.add(point);
         });
     });
 }
