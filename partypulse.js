@@ -35,7 +35,7 @@ function updatePlaceTranslation()
 }
 function initializeMap(){
     DG.autoload(function() { 
-        lcs = Locations.find().fetch();
+        lcs = Locations.find();
         // Создаем объект карты, связанный с контейнером: 
         var myMap = new DG.Map('map_canvas'); 
         // Устанавливаем центр карты, и коэффициент масштабирования: 
@@ -48,9 +48,8 @@ function initializeMap(){
               contentHtml: '<div class="alert" style="text-align:left;"><b>Привет!</b><br/>Кликни по любому маркету, <BR>чтобы выбрать вечеринку. Например, по этому.</div>'
            }); 
           myMap.balloons.add(myBalloon);
-        for(l in lcs)
+        lcs.forEach(function(loc)
         {
-          loc = lcs[l]; 
           // Добавляем элемент управления коэффициентом масштабирования: 
           myMap.controls.add(new DG.Controls.Zoom()); 
           // Добавить маркер на карту:
@@ -65,7 +64,7 @@ function initializeMap(){
           loc_to_point.push({location_id:loc._id,point_id:point.getId()})
 
           myMap.markers.add(point);
-        }
+        });
     });
 }
 
