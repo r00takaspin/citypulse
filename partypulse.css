@@ -1,0 +1,35 @@
+/* CSS declarations go here */
+.lenta
+{
+  width:950px;
+  height:300px;
+  text-align:center;
+}
+
+.lenta-cell 
+{
+  width: 190px;
+  float:left;
+  margin:2px;
+  height: 240px;
+}
+.lenta-cell-text
+{
+  margin-top:2px;
+}
+.map 
+{
+  width:100%;
+  float:left;
+}
+.tmp
+{
+  width:950px;
+  float:left;
+  margin:5px;
+}
+.tmp2
+{
+  width:250px;
+  margin:5px;
+}

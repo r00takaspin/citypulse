@@ -1,0 +1,88 @@
+<head>
+  <title>Пульс города</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script type="text/javascript"
+      src="http://maps.api.2gis.ru/1.0?callback=initialize">
+    </script>
+</head>
+
+<body>
+<center>
+    {{> hello_message}}
+</center>
+<div style="text-align: center; position: absolute; left: 220px;" id="map-stuff">
+      {{> map}}
+      {{> inst_trans}} 
+</div>
+</body>
+
+<template name="hello_message">
+<div style="text-align:left;width:990px">
+<p><h1>Сегодня пятница и проходит {{today_party_num}} вечеринок</h1></p>
+<p><h4>... и уже было опубликовано {{today_post_num}} постов из ночных клубов и не только</h4></p>
+</div>
+</template>
+
+<template name="instagram_posts">
+  <div>
+    {{#each posts}}
+    <div style="float:left">
+      <div>
+        <p style="text-align:left">
+          <table>
+            <tbody><tr>
+              <td>
+          <span style="color: rgb(0, 0, 0); font-family: arial, sans-serif; font-size: 13px; line-height: normal;">
+            <a href="#">{{text}}</a>
+            </span>
+              </td>
+            </tr>
+          </tbody></table>
+          
+        </p>
+      </div>
+      <div class="thumbnail">
+        <img src="{{thumb}}" style="max-width:120px">
+      </div>
+    </div>
+    {{/each}}
+  </div> 
+</template>
+
+<template name="location_description">
+  <div style="text-align:left">
+    <h4 id="location_name">{{location_name}}</h4>
+    <p>
+      {{location_desc}}
+    </p>
+  </div>
+</template>
+
+<template name="map">
+    <div class="well tmp ">
+      {{#constant}}
+        <div id="map_canvas" style="width:950px; height:400px"></div>
+      {{/constant}}
+      {{>location_description}}
+      <div style="margin:10px" id="location_photos">
+      {{>instagram_posts}}
+      </div>
+    </div>
+</template>
+
+<template name="inst_trans">
+      <div class="container-narrow">
+      <div class="lenta">
+      {{#each instagram}}
+        <div class="well lenta-cell">
+          <p><a href="http://web.stagram.com/n/{{user}}">@{{user}}</a> @ {{location}}</p>
+          <img class="lenta-cell-image thumbnail" src="{{thumb}}" style=" width: 200px; height: 200px;">
+          <div class="lenta-cell-text">
+          </div>
+        </div>
+      {{/each}}
+      </div>
+</div>
+</template>
+
+
