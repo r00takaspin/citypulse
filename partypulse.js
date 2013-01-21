@@ -6,6 +6,15 @@ instagram_filter = {}
 var loc_to_point = [];
 
 
+ 
+function loadScript() {
+
+  var script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = 'http://maps.api.2gis.ru/1.0?callback=initialize';
+      document.body.appendChild(script);
+}
+
 function updatePlaceTranslation()
 {
   for (l_p in loc_to_point)
@@ -25,7 +34,6 @@ function updatePlaceTranslation()
   }
 }
 function initializeMap(){
-    console.log("initializeMap");
     DG.autoload(function() { 
         lcs = Locations.find().fetch();
         // Создаем объект карты, связанный с контейнером: 
@@ -90,11 +98,16 @@ if (Meteor.isClient) {
   }; 
 
   //Template.inst_trans.today_post_num = Template.random();
-  var clientID = new Date().getTime(); //this could probably be more random
-  Template.map.rendered = function(){
-    $(document).ready(function() {
+  //var clientID = new Date().getTime(); //this could probably be more random
+  $(document).ready(function() {
+    $.getScript("http://maps.api.2gis.ru/1.0?callback=initialize").done(function() {
+      DG.loadLib();
       initializeMap();
     });
+  });
+
+  Template.map.rendered = function(){
+
   };
 
 }
