@@ -36,9 +36,17 @@ function updatePlaceTranslation()
 
 function setUpMarkets(myMap)
 {
+  var myBalloon = new DG.Balloons.Common({ 
+        // Местоположение, на которое указывает балун: 
+        geoPoint: new DG.GeoPoint(20.487023,54.715074),
+        // Текст внутри балуна: 
+        contentHtml: '<div class="alert" style="text-align:left;"><b>Привет!</b><br/>Кликни по любому маркету, <BR>чтобы выбрать вечеринку. Например, по этому.</div>'
+     }); 
+
+  myMap.balloons.add(myBalloon);
+
   Locations.find().forEach(function(loc)
   {
-    console.log(loc);
     // Добавляем элемент управления коэффициентом масштабирования: 
     myMap.controls.add(new DG.Controls.Zoom()); 
     // Добавить маркер на карту:
@@ -58,19 +66,11 @@ function setUpMarkets(myMap)
 
 function initializeMap(){
     DG.autoload(function() { 
-
         // Создаем объект карты, связанный с контейнером: 
         var myMap = new DG.Map('map_canvas'); 
         // Устанавливаем центр карты, и коэффициент масштабирования: 
         myMap.setCenter(new DG.GeoPoint(20.487023,54.715074), 14);
 
-        var myBalloon = new DG.Balloons.Common({ 
-              // Местоположение, на которое указывает балун: 
-              geoPoint: new DG.GeoPoint(20.487023,54.715074),
-              // Текст внутри балуна: 
-              contentHtml: '<div class="alert" style="text-align:left;"><b>Привет!</b><br/>Кликни по любому маркету, <BR>чтобы выбрать вечеринку. Например, по этому.</div>'
-           }); 
-        myMap.balloons.add(myBalloon);
         setTimeout(setUpMarkets,2000,myMap);
     });
 }
