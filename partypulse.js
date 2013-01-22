@@ -40,7 +40,7 @@ function setUpMarkets(myMap)
         // Местоположение, на которое указывает балун: 
         geoPoint: new DG.GeoPoint(20.487023,54.715074),
         // Текст внутри балуна: 
-        contentHtml: '<div class="alert" style="text-align:left;"><b>Привет!</b><br/>Кликни по любому маркету, <BR>чтобы выбрать вечеринку. Например, по этому.</div>'
+        contentHtml: '<div class="alert" style="text-align:left;"><b>Привет!</b><br/>Кликни по любому маркету, чтобы выбрать вечеринку. Например, по этому.</div>'
      }); 
 
   myMap.balloons.add(myBalloon);
@@ -69,7 +69,7 @@ function initializeMap(){
         // Создаем объект карты, связанный с контейнером: 
         var myMap = new DG.Map('map_canvas'); 
         // Устанавливаем центр карты, и коэффициент масштабирования: 
-        myMap.setCenter(new DG.GeoPoint(20.487023,54.715074), 14);
+        myMap.setCenter(new DG.GeoPoint(20.487023,54.715074), 13);
 
         setTimeout(setUpMarkets,2000,myMap);
     });
