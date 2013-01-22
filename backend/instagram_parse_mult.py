@@ -46,8 +46,7 @@ for loc in locations:
         lock_list.append(lock)
         thread.start_new_thread(parse_location, (loc["_id"],inst_loc.id))
 
-while(any([l.locked() for l in lock_list])):
-    time.sleep(60)
+time.sleep(100)
 
 
 
