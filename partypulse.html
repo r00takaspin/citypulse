@@ -58,7 +58,7 @@
 <template name="map">
     <div class="well tmp ">
       {{#constant}}
-        <div id="map_canvas" style="width:950px; height:400px"></div>
+        <div id="map_canvas" style="width:950px; height:400px"><img src="http://static.maps.api.2gis.ru/1.0?center=20.487023,54.715074&zoom=15&size=950,400"></div>
       {{/constant}}
       {{>location_description}}
       <div style="margin:10px" id="photos">
@@ -72,7 +72,7 @@
       <div class="lenta">
       {{#each instagram}}
         <div class="well lenta-cell">
-          <p><a href="http://web.stagram.com/n/{{user}}">@{{user}}</a> @ {{location}}</p>
+          <p><a href="http://web.stagram.com/n/{{user}}">@{{user}}</a> @ {{location}} ({{_id}} - {{get_date created_time}})</p>
           <img class="lenta-cell-image thumbnail" src="{{thumb}}" style=" width: 200px; height: 200px;">
           <div class="lenta-cell-text">
           </div>

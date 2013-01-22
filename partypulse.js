@@ -75,11 +75,43 @@ function initializeMap(){
     });
 }
 
-if (Meteor.isClient) {
+if (Meteor.isServer)
+{
+    Meteor.publish("instagram-feed", function () 
+    {
+      return Instagram.find({},{sort:{created_time:-1},limit:4});
+    });
 
-  Template.hello_message.today_party_num = function() { return"7"; };
-  Template.hello_message.today_post_num = function() { return Instagram.find().count(); }
-  Template.inst_trans.instagram = function() { return Instagram.find({},{sort: {created_time: -1},limit:4}) }
+    Meteor.publish("locations",function()
+    {
+      return Locations.find();
+    });
+}
+
+if (Meteor.isClient) {
+  Meteor.subscribe("instagram-feed");
+  Meteor.subscribe("locations");
+  Template.hello_message.today_party_num = function() { return Locations.find().count(); };
+  Template.hello_message.today_post_num = function() { Instagram.find().count(); }
+  Template.inst_trans.instagram = function() 
+  { 
+    return Instagram.find({},{limit:10,sort:{inst_id:-1}});
+  }
+  Template.inst_trans.get_date = function(unix_timestamp)
+  {
+        var a = new Date(unix_timestamp*1000);
+        var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        var year = a.getFullYear();
+        var month = months[a.getMonth()];
+        var date = a.getDate();
+        var hour = a.getHours();
+        var min = a.getMinutes();
+        var sec = a.getSeconds();
+        var time = date+','+month+' '+year+' '+hour+':'+min+':'+sec;
+        return time;
+    }
+
+
   Template.instagram_posts.posts = function() { return  Instagram.find({location_id:Session.get("location_id")},{limit:21,sort:{created_time:-1}}); }
   Template.location_description.location_name = function() {
       if (Session.get("location_id"))
@@ -111,12 +143,4 @@ if (Meteor.isClient) {
       initializeMap();
     });
   });
-
-  Template.map.rendered = function(){
-
-  };
-
-}
-
-if (Meteor.isServer) {
 }

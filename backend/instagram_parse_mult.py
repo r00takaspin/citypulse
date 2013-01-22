@@ -18,7 +18,7 @@ def parse_location(location_id,inst_loc_id):
                 u'location_id':location_id,
                 u'inst_id':p.id,
                 u'user':p.user.username,
-                u'created_time':time.mktime(p.created_time.timetuple()),
+                u'created_time':int(time.mktime(p.created_time.timetuple())),
                 u'location':inst_loc.name
             })
             print "location %s has new photo: %s" % (loc["name"],p.images['low_resolution'].url)
