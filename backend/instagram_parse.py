@@ -26,7 +26,7 @@ for loc in locations:
                 db["instagram"].insert({
                     u"thumb":p.images['low_resolution'].url,
                     u'text':text,
-                    u'location_id':loc["_id"],
+                    u'location_id':loc["_id"].__str__(),
                     u'inst_id':p.id,
                     u'user':p.user.username,
                     u'created_time':time.mktime(p.created_time.timetuple()),

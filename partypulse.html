@@ -4,17 +4,15 @@
 </head>
 
 <body>
-<center>
-    {{> hello_message}}
-</center>
-<div style="text-align: center; position: absolute; left: 220px;" id="map-stuff">
-      {{> map}}
-      {{> inst_trans}} 
-</div>
+
+  {{> hello_message}}
+  {{> map}}
+  <div class="clearfix"></div>
+  {{> inst_trans}} 
 </body>
 
 <template name="hello_message">
-<div style="text-align:left;width:990px">
+<div style="text-align:left;width:970px">
 <p><h1>Сегодня пятница и проходит {{today_party_num}} вечеринок</h1></p>
 <p><h4>... и уже было опубликовано {{today_post_num}} постов из ночных клубов и не только</h4></p>
 </div>
@@ -39,7 +37,7 @@
         </p>
       </div>
       <div class="thumbnail">
-        <img src="{{thumb}}" style="max-width:120px">
+        <img src="{{thumb}}" style="max-width:130px">
       </div>
     </div>
     {{/each}}
@@ -56,9 +54,9 @@
 </template>
 
 <template name="map">
-    <div class="well tmp ">
+    <div class="well tmp" style="width:1000px;">
       {{#constant}}
-        <div id="map_canvas" style="width:950px; height:400px"><img src="http://static.maps.api.2gis.ru/1.0?center=20.487023,54.715074&zoom=15&size=950,400"></div>
+        <div id="map_canvas" style="width:990px; height:400px"><img src="http://static.maps.api.2gis.ru/1.0?center=20.487023,54.715074&zoom=15&size=990,400"></div>
       {{/constant}}
       {{>location_description}}
       <div style="margin:10px" id="photos">
@@ -68,18 +66,21 @@
 </template>
 
 <template name="inst_trans">
-      <div class="container-narrow">
-      <div class="lenta">
+  <div style="width:1000px;">
+    <ul class="thumbnails">
       {{#each instagram}}
-        <div class="well lenta-cell">
-          <p><a href="http://web.stagram.com/n/{{user}}">@{{user}}</a> @ {{location}} ({{_id}} - {{get_date created_time}})</p>
-          <img class="lenta-cell-image thumbnail" src="{{thumb}}" style=" width: 200px; height: 200px;">
-          <div class="lenta-cell-text">
+        <li>
+          <div class="thumbnail">
+            <a href="#" class="thumbnail">
+            <img src="{{thumb}}" alt="" style="width:190px">
+            </a>
+            <p><a href="http://web.stagram.com/n/{{user}}">@{{user}}</a><BR>
+            <span style="color:gray"><small>{{get_date created_time}}</small></span></p>
           </div>
-        </div>
+        </li>
       {{/each}}
-      </div>
-</div>
+    </ul>
+  </div>
 </template>
 
 

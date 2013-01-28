@@ -1,4 +1,4 @@
-Instagram = new Meteor.Collection("instagram");
+//Instagram = new Meteor.Collection("instagram");
 Locations = new Meteor.Collection("locations");
 
 instagram_filter = {}
@@ -26,10 +26,11 @@ function updatePlaceTranslation()
       Session.set("location_id", loc_to_point[l_p].location_id);
 
       //$("#location_name").html(Locations.findOne({_id:Session.get("location_id")}).name);
-
+      /*
       $('html, body').animate({
          scrollTop: $("#location_photos").offset().top
       }, 2000);
+      */
     }
   }
 }
@@ -77,9 +78,14 @@ function initializeMap(){
 
 if (Meteor.isServer)
 {
-    Meteor.publish("instagram-feed", function () 
+    Meteor.publish("lastInstagram", function () 
     {
-      return Instagram.find({},{sort:{created_time:-1},limit:4});
+      return lastInstagram();
+    });
+
+    Meteor.publish("locationInstagram", function (location_id) 
+    {
+      return locationInstagram(location_id);
     });
 
     Meteor.publish("locations",function()
@@ -89,17 +95,57 @@ if (Meteor.isServer)
 }
 
 if (Meteor.isClient) {
-  Meteor.subscribe("instagram-feed");
+  
+  Meteor.subscribe("lastInstagram");
+  Meteor.subscribe("locationInstagram",{location_id:Session.get("location_id")});
   Meteor.subscribe("locations");
+
+
+  Meteor.autorun(function() {
+    Meteor.subscribe("locationInstagram", Session.get("location_id"));
+  });
+
   Template.hello_message.today_party_num = function() { return Locations.find().count(); };
   Template.hello_message.today_post_num = function() { Instagram.find().count(); }
   Template.inst_trans.instagram = function() 
   { 
-    return Instagram.find({},{limit:10,sort:{inst_id:-1}});
+    return lastInstagram();
   }
   Template.inst_trans.get_date = function(unix_timestamp)
   {
+
+        console.log("get_date");
+        js_unix_time = unix_timestamp*1000;
+        var curr_date = new Date; curr_date_unix = curr_date.getTime();
+        
         var a = new Date(unix_timestamp*1000);
+
+        if (curr_date.getDate()==a.getDate())
+        {
+          if (curr_date.getMinutes()-a.getMinutes()<=5)
+          {
+            return "менее 5 м. назад";
+          }
+          if (curr_date.getSeconds()-a.getSeconds()<=60)
+          {
+              return (curr_date.getSeconds()-a.getSeconds())+"секунд назад";
+          }
+          if (curr_date.getHours()==a.getHours())
+          {
+            return "менее часа назад"
+          }
+
+          if (curr_date.getDate()==a.getDate())
+          {
+            return (curr_date.getHours()-a.getHours())+" ч. назад";
+          }
+        }  
+
+        if ((curr_date.getDate()-a.getDate())==1)
+        {
+          return "вчера в "+a.getHours()+":"+a.getMinutes();
+        }      
+
         var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
         var year = a.getFullYear();
         var month = months[a.getMonth()];
@@ -108,11 +154,11 @@ if (Meteor.isClient) {
         var min = a.getMinutes();
         var sec = a.getSeconds();
         var time = date+','+month+' '+year+' '+hour+':'+min+':'+sec;
-        return time;
+       return time;
     }
 
 
-  Template.instagram_posts.posts = function() { return  Instagram.find({location_id:Session.get("location_id")},{limit:21,sort:{created_time:-1}}); }
+  Template.instagram_posts.posts = function() { return locationInstagram(Session.get("location_id")); }
   Template.location_description.location_name = function() {
       if (Session.get("location_id"))
       {
